@@ -19,6 +19,24 @@ const val CHAPTER_LIST_DEDUPLICATED_MEMO = "chapterListDeduplicated"
 const val CHAPTER_LIST_BLACKLIST_MEMO = "chapterListBlacklist"
 
 @Serializable
+class WafChallengeResponse(
+    @SerialName("captcha_id") val captchaId: String,
+    @SerialName("image_base64") val imageBase64: String,
+    @SerialName("thumb_base64") val thumbBase64: String,
+)
+
+@Serializable
+class WafVerifyRequest(
+    @SerialName("captcha_id") val captchaId: String,
+    val angle: Int,
+)
+
+@Serializable
+class WafVerifyResponse(
+    val success: Boolean,
+)
+
+@Serializable
 class Term(
     val title: String,
 )
@@ -371,3 +389,32 @@ class ChapterResponse(
         val s: Int = 0,
     )
 }
+
+/** Response of the comix-proxy `/sign` endpoint. */
+@Serializable
+class ProxySignResponse(
+    val token: String,
+    @SerialName("waf_pass") val wafPass: String,
+    @SerialName("cf_clearance") val cfClearance: String,
+    @SerialName("user_agent") val userAgent: String,
+)
+
+/** Response of the comix-proxy `/cookies` endpoint. */
+@Serializable
+class ProxyCookiesResponse(
+    @SerialName("waf_pass") val wafPass: String,
+    @SerialName("cf_clearance") val cfClearance: String,
+    @SerialName("user_agent") val userAgent: String,
+)
+
+/** Response of the comix-proxy `/decrypt` endpoint. */
+@Serializable
+class ProxyDecryptResponse(
+    val json: String,
+)
+
+/** Request body of the comix-proxy `/decrypt` endpoint. */
+@Serializable
+class ProxyDecryptRequest(
+    val e: String,
+)
